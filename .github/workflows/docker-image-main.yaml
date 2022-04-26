@@ -34,7 +34,7 @@ jobs:
            docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PWD }}
            docker push --all-tags alecbrown/cross-openssl
     - name: Docker Hub Description
-      uses: peter-evans/dockerhub-description@v2
+      uses: peter-evans/dockerhub-description@v3
       env:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USER }}
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PWD }}
