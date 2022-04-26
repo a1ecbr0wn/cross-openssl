@@ -1,0 +1,42 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and tag the docker image
+      run: |
+           DATETAG=$(date +%s)
+           docker build . --file Dockerfile.x86_64-unknown-linux-gnux86_64-unknown-linux-gnu --tag alecbrown/cross-openssl:x86_64-unknown-linux-gnu-$DATETAG
+           docker image tag alecbrown/cross-openssl:x86_64-unknown-linux-gnu-$DATETAG alecbrown/cross-openssl:x86_64-unknown-linux-gnu
+           docker build . --file Dockerfile.armv7-unknown-linux-gnubinhf --tag alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf-$DATETAG
+           docker image tag alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf-$DATETAG alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf
+    - name: Push the Docker Image to hub.docker.com
+      run: |
+           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PWD }}
+           docker push --all-tags alecbrown/cross-openssl
+    - name: Docker Hub Description
+      uses: peter-evans/dockerhub-description@v2
+      env:
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USER }}
+        DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PWD }}
+        DOCKERHUB_REPOSITORY: alecbrown/cross-openssl
