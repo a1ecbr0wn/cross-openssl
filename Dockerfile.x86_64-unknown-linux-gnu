@@ -1,4 +1,7 @@
 FROM rustembedded/cross:x86_64-unknown-linux-gnu
 
-RUN yum update --assumeyes
-RUN yum install --assumeyes openssl-devel
+FROM ubuntu:16.04
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update
+RUN apt-get install --assume-yes libssl-dev
