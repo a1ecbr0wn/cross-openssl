@@ -21,21 +21,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build and tag the docker image
-      run: |
-           DATETAG=$(date +%s)
-           docker build . --file Dockerfile.x86_64-unknown-linux-gnu --tag alecbrown/cross-openssl:x86_64-unknown-linux-gnu-$DATETAG
-           docker image tag alecbrown/cross-openssl:x86_64-unknown-linux-gnu-$DATETAG alecbrown/cross-openssl:x86_64-unknown-linux-gnu
-           docker build . --file Dockerfile.armv7-unknown-linux-gnubinhf --tag alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf-$DATETAG
-           docker image tag alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf-$DATETAG alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf
-    - name: Push the Docker Image to hub.docker.com
-      run: |
-           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PWD }}
-           docker push --all-tags alecbrown/cross-openssl
-    - name: Docker Hub Description
-      uses: peter-evans/dockerhub-description@v3
-      env:
-        DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USER }}
-        DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PWD }}
-        DOCKERHUB_REPOSITORY: alecbrown/cross-openssl
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PWD }}
+
+    - name: Build and push armv7 container
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./Dockerfile.armv7-unknown-linux-gnubinhf
+        platforms: linux/amd64,linux/arm64,linux/arm/v7
+        push: true
+        tags: alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf
+
+    - name: Build and push x86_64 container
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./Dockerfile.x86_64-unknown-linux-gnu
+        platforms: linux/amd64,linux/arm64,linux/arm/v7
+        push: true
+        tags: alecbrown/cross-openssl:x86_64-unknown-linux-gnu
