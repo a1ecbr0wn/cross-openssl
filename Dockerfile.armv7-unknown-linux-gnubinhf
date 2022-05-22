@@ -5,7 +5,7 @@
 #     apt-get update && \
 #     apt-get install --assume-yes libssl-dev:armhf
 
-FROM ubuntu:latest
+FROM ubuntu:20.04
 RUN apt-get update
 RUN dpkg --add-architecture armhf
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC && \
