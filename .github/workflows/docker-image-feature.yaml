@@ -29,13 +29,13 @@ jobs:
       id: vars
       run: echo ::set-output name=branch_name::${GITHUB_REF#refs/*/*/}
 
-    - name: Build armv7 container
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        file: ./Dockerfile.armv7-unknown-linux-gnubinhf
-        platforms: linux/amd64,linux/arm64,linux/arm/v7
-        tags: alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf
+    # - name: Build armv7 container
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #     context: .
+    #     file: ./Dockerfile.armv7-unknown-linux-gnubinhf
+    #     platforms: linux/amd64,linux/arm64,linux/arm/v7
+    #     tags: alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf
 
     - name: Build x86_64 container
       uses: docker/build-push-action@v3
