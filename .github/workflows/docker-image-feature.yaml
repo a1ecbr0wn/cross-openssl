@@ -29,6 +29,11 @@ jobs:
       id: vars
       run: echo ::set-output name=branch_name::${GITHUB_REF#refs/*/*/}
 
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      with:
+        platforms: arm64,arm
+
     # - name: Build armv7 container
     #   uses: docker/build-push-action@v3
     #   with:
