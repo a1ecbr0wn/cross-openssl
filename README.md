@@ -19,3 +19,9 @@ docker run -it alecbrown/cross-openssl:x86_64-unknown-linux-gnu
 ``` bash
 docker run -it alecbrown/cross-openssl:armv7-unknown-linux-gnubinhf
 ```
+
+- Multiarch build example
+
+``` bash
+docker buildx build -t alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf -f Dockerfile.armv7-unknown-linux-gnubinhf --platform linux/arm64/v8,linux/arm/v7,linux/amd64 --push .
+```
