@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM debian:buster
 RUN apt-get update
 RUN apt-get upgrade --assume-yes
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC && \
