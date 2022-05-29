@@ -13,9 +13,10 @@ RUN apt-get install --assume-yes libssl1.1:armhf
 RUN apt-get install --assume-yes libssl-dev:armhf
 
 ENV PKG_CONFIG_LIBDIR_armv7_unknown_linux_gnueabihf=/usr/lib/arm-linux-gnueabihf/pkgconfig \
+    PKG_CONFIG_SYSROOT_DIR_armv7_unknown_linux_gnueabihf=/usr/lib/arm-linux-gnueabihf \
     CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=arm-linux-gnueabihf-gcc \
-    CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_RUNNER="/linux-runner armv7" \
     CC_armv7_unknown_linux_gnueabihf=arm-linux-gnueabihf-gcc \
     CXX_armv7_unknown_linux_gnueabihf=arm-linux-gnueabihf-g++ \
     BINDGEN_EXTRA_CLANG_ARGS_armv7_unknown_linux_gnueabihf="--sysroot=/usr/arm-linux-gnueabihf" \
-    QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
+    QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf \
+    ARMV7_UNKNOWN_LINUX_GNUEABIHF_OPENSSL_LIB_DIR=/usr/lib/arm-linux-gnueabihf
