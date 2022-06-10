@@ -45,6 +45,6 @@ jobs:
       with:
         context: .
         file: ./Dockerfile.${{ matrix.TARGET }}
-        platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+        platforms: linux/amd64,linux/arm64/v8
         push: true
         tags: alecbrown/cross-openssl:${{ matrix.TARGET }}
