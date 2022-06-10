@@ -13,7 +13,6 @@ jobs:
   build:
     name: "Feature CI Build"
     runs-on: ubuntu-latest
-    needs: format
     strategy:
       matrix:
         TARGET:
