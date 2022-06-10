@@ -11,7 +11,15 @@ on:
 jobs:
 
   build:
+    name: "Feature CI Build"
     runs-on: ubuntu-latest
+    needs: format
+    strategy:
+      matrix:
+        TARGET:
+          - x86_64-unknown-linux-gnu
+          - armv7-unknown-linux-gnueabihf
+          - aarch64-unknown-linux-gnu
 
     steps:
     - name: Checkout
@@ -29,18 +37,10 @@ jobs:
       with:
         platforms: arm64,arm
 
-    - name: Build armv7 container
+    - name: Build container
       uses: docker/build-push-action@v3
       with:
         context: .
-        file: ./Dockerfile.armv7-unknown-linux-gnubinhf
+        file: ./Dockerfile.${{ matrix.TARGET }}
         platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
-        tags: alecbrown/cross-openssl:armv7-unknown-linux-gnueabihf
-
-    - name: Build x86_64 container
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        file: ./Dockerfile.x86_64-unknown-linux-gnu
-        platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
-        tags: alecbrown/cross-openssl:x86_64-unknown-linux-gnu
+        tags: alecbrown/cross-openssl:${{ matrix.TARGET }}
