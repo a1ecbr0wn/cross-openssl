@@ -115,27 +115,27 @@ main() {
     local arch="${1}" \
         softmmu="${2:-}"
 
-        apt-get install --assume-yes --no-install-recommends \
-            autoconf \
-            automake \
-            bison \
-            bzip2 \
-            curl \
-            flex \
-            libtool \
-            make \
-            patch \
-            python3 \
-            g++ \
-            pkg-config \
-            xz-utils \
-            libattr1-dev \
-            libcap-ng-dev \
-            libffi-dev \
-            libglib2.0-dev \
-            libpixman-1-dev \
-            libselinux1-dev \
-            zlib1g-dev
+    apt-get install --assume-yes --no-install-recommends \
+        autoconf \
+        automake \
+        bison \
+        bzip2 \
+        curl \
+        flex \
+        libtool \
+        make \
+        patch \
+        python3 \
+        g++ \
+        pkg-config \
+        xz-utils \
+        libattr1-dev \
+        libcap-ng-dev \
+        libffi-dev \
+        libglib2.0-dev \
+        libpixman-1-dev \
+        libselinux1-dev \
+        zlib1g-dev
 
     # if we have python3.6+, we can install qemu 7.0.0, which needs ninja-build
     # ubuntu 16.04 only provides python3.5, so remove when we have a newer qemu.
@@ -184,9 +184,13 @@ main() {
     make "-j$(nproc)"
     make install
 
+    echo "Configured with target-list ${targets}"
+
     # HACK the binfmt_misc interpreter we'll use expects the QEMU binary to be
     # in /usr/bin. Create an appropriate symlink
     ln -s "/usr/local/bin/qemu-${arch}" "/usr/bin/qemu-${arch}-static"
+
+    echo "qemu: /usr/local/bin/qemu-${arch}"
 
     popd
 

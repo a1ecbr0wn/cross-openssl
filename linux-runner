@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Starting linux-runner"
+echo "Starting linux-runner ${1}"
 
 set -e
 

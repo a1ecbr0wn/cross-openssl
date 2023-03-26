@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 debian:buster
+FROM debian:buster
 
 RUN dpkg --add-architecture armhf
 RUN apt-get update
