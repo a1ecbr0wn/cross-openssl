@@ -20,7 +20,7 @@ COPY base-runner.sh /
 COPY qemu.sh /
 RUN /qemu.sh arm softmmu
 
-ENV CROSS_SYSROOT=/usr/aarm-linux-gnueabihf
+ENV CROSS_SYSROOT=/usr/arm-linux-gnueabihf
 ENV CROSS_TARGET_RUNNER="/linux-runner armv7hf"
 ENV PKG_CONFIG_PATH_armv7_unknown_linux_gnueabihf=/usr/lib/arm-linux-gnueabihf/pkgconfig \
     PKG_CONFIG_LIBDIR_ARMV7_UNKNOWN_LINUX_GNUEABIHF=/usr/lib/arm-linux-gnueabihf/pkgconfig \
